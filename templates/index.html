@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Laptop Price Predictor</title>
+</head>
+<body>
+<h2>Laptop Price Prediction</h2>
+
+<form action="/predict" method="post">
+    <h3>Numeric Features</h3>
+    {% for col in num_cols %}
+        <label>{{ col }}</label>
+        <input type="number" step="any" name="{{ col }}" required><br><br>
+    {% endfor %}
+
+    <h3>Categorical Features</h3>
+    {% for col in cat_cols %}
+        <label>{{ col }}</label>
+        <select name="{{ col }}" required>
+            {% for val in cat_uniques[col] %}
+                <option value="{{ val }}">{{ val }}</option>
+            {% endfor %}
+        </select><br><br>
+    {% endfor %}
+
+    <button type="submit">Predict</button>
+</form>
+
+{% if prediction %}
+<h2>Predicted Price: ₹ {{ prediction }}</h2>
+{% endif %}
+
+<hr>
+
+<h3>Batch Prediction</h3>
+<form action="/batch_predict" method="post" enctype="multipart/form-data">
+    <input type="file" name="file" required>
+    <button type="submit">Upload & Predict</button>
+</form>
+
+</body>
+</html>
